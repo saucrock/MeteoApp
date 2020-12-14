@@ -14,7 +14,7 @@ const joursDiv = document.querySelectorAll('.jour-prevision-nom');
 const tempJoursDiv = document.querySelectorAll('.jour-prevision-temp');
 const imgIcone = document.querySelector('.logo-meteo');
 const chargementContainer = document.querySelector('.overlay-icone-chargement');
-
+//test pull
 if(navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(position => {
 
