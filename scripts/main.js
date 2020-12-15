@@ -24,9 +24,33 @@ if(navigator.geolocation) {
         AppelAPI(long,lat);
 
     }, () => {
-        alert(`Vous avez refusé la géolocalisation, l'application ne peur pas fonctionner, veuillez l'activer.!`)
-    })
-}
+        alert(`Vous avez refusé la géolocalisation, souhaitez-vous sélectionner manuellement une ville ?`);
+
+        var long = prompt("Quelle est la longitutde de la ville souhaitée?", "<Entrez ici la longitude>");
+        if( long == null ){
+            alert("Vous avez cliqué sur Annuler");
+        }
+        else {
+            while (long == "" || long == "<Entrez ici la longitude>"){
+                alert("Champs vide; veuillez recommencer");
+                long = prompt("Quelle est la longitutde de la ville souhaitée?", "<Entrez ici la longitude>");
+            }
+            var lat = prompt("Quelle est la latitude de la ville souhaitée?", "<Entrez ici la latitude>");
+            if( lat == null ){
+                alert("Vous avez cliqué sur Annuler");
+            }
+            else {
+                while (lat == "" || lat == "<Entrez ici la latitude>"){
+                    alert("Champs vide; veuillez recommencer")
+                    lat = prompt("Quelle est la latitude de la ville souhaitée?", "<Entrez ici la latitude>");
+                }
+                AppelAPI(long,lat);
+            }
+        }
+    
+     }
+    )}
+        
 
 function AppelAPI(long, lat) {
 
