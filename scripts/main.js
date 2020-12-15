@@ -65,7 +65,6 @@ if(navigator.geolocation) {
     }
     )}
         
-
 function AppelAPI(long, lat, ville) {
     //console.log(long);
     //console.log(lat);
@@ -157,4 +156,7 @@ function AppelAPI_city(city) {
 
     }) 
 
+}
+function nouvelleSaisie(){
+    alert('ok');
 }
