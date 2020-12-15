@@ -25,48 +25,64 @@ if(navigator.geolocation) {
 
     }, () => {
         alert(`Vous avez refusé la géolocalisation, souhaitez-vous sélectionner manuellement une ville ?`);
-
-        var long = prompt("Quelle est la longitutde de la ville souhaitée?", "<Entrez ici la longitude>");
-        if( long == null ){
+        let choix = prompt("Par quel moyen souhaitez vous identifier la ville ?", "<Saisissez ville ou coordonnées GPS>");
+        if (choix == null){
             alert("Vous avez cliqué sur Annuler");
         }
-        else {
-            while (long == "" || long == "<Entrez ici la longitude>"){
-                alert("Champs vide; veuillez recommencer");
-                long = prompt("Quelle est la longitutde de la ville souhaitée?", "<Entrez ici la longitude>");
-            }
-            var lat = prompt("Quelle est la latitude de la ville souhaitée?", "<Entrez ici la latitude>");
-            if( lat == null ){
+        else if (choix == "" || (choix != "ville" && choix != "coordonnées GPS") ){
+            alert("Choix vide ou saisie incorrecte");
+        }
+        else if (choix == 'coordonnées GPS'){
+            var long = prompt("Quelle est la longitutde de la ville souhaitée?", "<Entrez ici la longitude>");
+            if( long == null ){
                 alert("Vous avez cliqué sur Annuler");
             }
             else {
-                while (lat == "" || lat == "<Entrez ici la latitude>"){
-                    alert("Champs vide; veuillez recommencer")
-                    lat = prompt("Quelle est la latitude de la ville souhaitée?", "<Entrez ici la latitude>");
+                while (long == "" || long == "<Entrez ici la longitude>"){
+                    alert("Champs vide; veuillez recommencer");
+                    long = prompt("Quelle est la longitutde de la ville souhaitée?", "<Entrez ici la longitude>");
                 }
-                AppelAPI(long,lat);
+                var lat = prompt("Quelle est la latitude de la ville souhaitée?", "<Entrez ici la latitude>");
+                if( lat == null ){
+                    alert("Vous avez cliqué sur Annuler");
+                }
+                else {
+                    while (lat == "" || lat == "<Entrez ici la latitude>"){
+                        alert("Champs vide; veuillez recommencer")
+                        lat = prompt("Quelle est la latitude de la ville souhaitée?", "<Entrez ici la latitude>");
+                    }
+                    let ville = "ville pas encore def à partir long lat";
+                    AppelAPI(long,lat,ville);
+                }
             }
         }
-    
-     }
+        else { //(choix == 'ville')
+            var ville = prompt("Quelle est la ville souhaitée?", "<Entrez ici le nom de la ville>");
+            console.log("ville saisie : " + ville);
+            AppelAPI_city(ville);
+        }
+    }
     )}
         
 
-function AppelAPI(long, lat) {
-
+function AppelAPI(long, lat, ville) {
+    //console.log(long);
+    //console.log(lat);
     fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&exclude=minutely&units=metric&lang=fr&appid=${CLEFAPI}`)
     .then((reponse) => {
         return reponse.json();
     })
     .then((data) => {
-        // console.log(data);
+        console.log(data);
 
         resultatsAPI = data;
 
-        temps.innerText = resultatsAPI.current.weather[0].description;
+        temps.innerText = resultatsAPI.current.weather[0].description; //exemple : Nuageux
+        console.log("temps : " + resultatsAPI.current.weather[0].description);
         temperature.innerText = `${Math.trunc(resultatsAPI.current.temp)}°`
-        localisation.innerText = resultatsAPI.timezone;
-
+        localisation.innerText = resultatsAPI.timezone + " " + ville; //Fuseau horaire
+        console.log("localisation : "+ resultatsAPI.timezone);
+        console.log(resultatsAPI.name);
 
         // les heures, par tranche de trois, avec leur temperature.
 
@@ -115,5 +131,25 @@ function AppelAPI(long, lat) {
          chargementContainer.classList.add('disparition');
 
     })
+
+}
+function AppelAPI_city(city) {
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${CLEFAPI}`)
+    .then((reponse) => {
+        return reponse.json();
+    })
+    .then((data) => {
+        console.log(data);
+
+        resultatsAPI = data;
+        var long = resultatsAPI.coord.lon;
+        var lat = resultatsAPI.coord.lat;
+        var ville = resultatsAPI.name;
+        console.log(long);
+        console.log(lat);
+        console.log(resultatsAPI.name);
+        AppelAPI(long,lat,ville);
+
+    }) 
 
 }
