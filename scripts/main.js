@@ -17,11 +17,12 @@ const chargementContainer = document.querySelector('.overlay-icone-chargement');
 //test pull
 if(navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(position => {
+        //console.log(position);
 
-        // console.log(position);
         let long = position.coords.longitude;
         let lat = position.coords.latitude;
-        AppelAPI(long,lat);
+        
+        AppelAPI(long,lat, undefined);
 
     }, () => {
         alert(`Vous avez refusé la géolocalisation, souhaitez-vous sélectionner manuellement une ville ?`);
@@ -52,7 +53,7 @@ if(navigator.geolocation) {
                         lat = prompt("Quelle est la latitude de la ville souhaitée?", "<Entrez ici la latitude>");
                     }
                     let ville = "ville pas encore def à partir long lat";
-                    AppelAPI(long,lat,ville);
+                    AppelAPI(long,lat,undefined);
                 }
             }
         }
@@ -80,7 +81,11 @@ function AppelAPI(long, lat, ville) {
         temps.innerText = resultatsAPI.current.weather[0].description; //exemple : Nuageux
         console.log("temps : " + resultatsAPI.current.weather[0].description);
         temperature.innerText = `${Math.trunc(resultatsAPI.current.temp)}°`
-        localisation.innerText = resultatsAPI.timezone + " " + ville; //Fuseau horaire
+        if (ville != undefined){
+            localisation.innerText = resultatsAPI.timezone + " " + ville; //Fuseau horaire
+        } else {
+            localisation.innerText = resultatsAPI.timezone;
+        }
         console.log("localisation : "+ resultatsAPI.timezone);
         console.log(resultatsAPI.name);
 
