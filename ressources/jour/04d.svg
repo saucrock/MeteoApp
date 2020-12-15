@@ -23,8 +23,8 @@
 /*
 ** CLOUDS
 */
-@keyframes am-weather-cloud-1 {
-  0% {
+@keyframes am-weather-cloud-1 { /*nuage second plan*/
+  0% { /*limites spatiale du cycle du nuage second plan*/
     -webkit-transform: translate(-5px,0px);
        -moz-transform: translate(-5px,0px);
         -ms-transform: translate(-5px,0px);
@@ -47,17 +47,17 @@
   -webkit-animation-name: am-weather-cloud-1;
      -moz-animation-name: am-weather-cloud-1;
           animation-name: am-weather-cloud-1;
-  -webkit-animation-duration: 7s;
+  -webkit-animation-duration: 7s; 
      -moz-animation-duration: 7s;
-          animation-duration: 7s;
+          animation-duration: 7s; /*durée de déplacement du nuage second plan */
   -webkit-animation-timing-function: linear;
      -moz-animation-timing-function: linear;
-          animation-timing-function: linear;
+          animation-timing-function: linear; /*type de déplacement du nuage second plan */
   -webkit-animation-iteration-count: infinite;
-     -moz-animation-iteration-count: infinite;
-          animation-iteration-count: infinite;
+     -moz-animation-iteration-count: infinite; 
+          animation-iteration-count: infinite; /*nombre de déplacement du nuage second plan*/
 }
-@keyframes am-weather-cloud-2 {
+@keyframes am-weather-cloud-2 { /*nuage premier plan*/
   0% {
     -webkit-transform: translate(0px,0px);
        -moz-transform: translate(0px,0px);
@@ -77,7 +77,7 @@
             transform: translate(0px,0px);
   }
 }
-.am-weather-cloud-2 {
+.am-weather-cloud-2 { 
   -webkit-animation-name: am-weather-cloud-2;
      -moz-animation-name: am-weather-cloud-2;
           animation-name: am-weather-cloud-2;
