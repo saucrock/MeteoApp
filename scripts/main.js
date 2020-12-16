@@ -1,8 +1,8 @@
 import tabJoursEnOrdre from './Utilitaire/gestionTemps.js';
 
-// console.log("DEPUIS MAIN JS:" + tabJoursEnOrdre);
 
-const CLEFAPI = '05806546078a774ef25d7971e2f037be';
+
+const CLEFAPI = '05806546078a774ef25d7971e2f037be'; 
 let resultatsAPI;
 
 const temps = document.querySelector('.temps');
@@ -17,7 +17,7 @@ const chargementContainer = document.querySelector('.overlay-icone-chargement');
 
 
 
-if(navigator.geolocation) {
+if(navigator.geolocation) { // si le navigateur a la fonctionnalité geolocalisation 
     navigator.geolocation.getCurrentPosition(position => {
         //console.log(position);
 
@@ -70,9 +70,10 @@ if(navigator.geolocation) {
 function AppelAPI(long, lat, ville) {
     //console.log(long);
     //console.log(lat);
-    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&exclude=minutely&units=metric&lang=fr&appid=${CLEFAPI}`)
+    // requête http lang FR retourne une promesse lorsque les données seront présentes
+    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&exclude=minutely&units=metric&lang=fr&appid=${CLEFAPI}`) 
     .then((reponse) => {
-        return reponse.json();
+        return reponse.json(); //transformer au format json pour manipuler avec l'API
     })
     .then((data) => {
         console.log(data);
@@ -81,18 +82,18 @@ function AppelAPI(long, lat, ville) {
 
         temps.innerText = resultatsAPI.current.weather[0].description; //exemple : Nuageux
         console.log("temps : " + resultatsAPI.current.weather[0].description);
-        temperature.innerText = `${Math.trunc(resultatsAPI.current.temp)}°`
+        temperature.innerText = `${Math.trunc(resultatsAPI.current.temp)}°` // round
         if (ville != undefined){
-            localisation.innerText = resultatsAPI.timezone + " " + ville; //Fuseau horaire
+            localisation.innerText = resultatsAPI.timezone + " " + ville; //Fuseau horaire + ville
         } else {
             localisation.innerText = resultatsAPI.timezone;
         }
         console.log("localisation : "+ resultatsAPI.timezone);
         console.log(resultatsAPI.name);
 
-        // les heures, par tranche de trois, avec leur temperature.
+        // les heures par tranche de trois avec leur temperature 
 
-        let heureActuelle = new Date().getHours();
+        let heureActuelle = new Date().getHours(); // constructeur Date avec méthode getHours
 
         for(let i = 0; i < heure.length; i++) {
 
@@ -108,9 +109,9 @@ function AppelAPI(long, lat, ville) {
 
         }
 
-        // temp pour 3h
+        // temperature pour 3h
         for(let j = 0; j < tempPourH.length; j++) {
-            tempPourH[j].innerText = `${Math.trunc(resultatsAPI.hourly[j * 3].temp)}°`
+            tempPourH[j].innerText = `${Math.trunc(resultatsAPI.hourly[j * 3].temp)}°` // temp par heure API
         }
 
 
@@ -127,14 +128,14 @@ function AppelAPI(long, lat, ville) {
         }
 
         // Icone dynamique 
-         if(heureActuelle >= 6 && heureActuelle < 21) { // entre 6h et 21h jour
+         if(heureActuelle >= 6 && heureActuelle < 18) { // entre 6h et 18h jour
              imgIcone.src = `ressources/jour/${resultatsAPI.current.weather[0].icon}.svg`
          } else  { // nuit
             imgIcone.src = `ressources/nuit/${resultatsAPI.current.weather[0].icon}.svg`
          }
 
 
-         chargementContainer.classList.add('disparition');
+         chargementContainer.classList.add('disparition'); //ajout d'une classe disparition
 
     })
 
