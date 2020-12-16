@@ -14,7 +14,9 @@ const joursDiv = document.querySelectorAll('.jour-prevision-nom');
 const tempJoursDiv = document.querySelectorAll('.jour-prevision-temp');
 const imgIcone = document.querySelector('.logo-meteo');
 const chargementContainer = document.querySelector('.overlay-icone-chargement');
-//test pull
+
+
+
 if(navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(position => {
         //console.log(position);
@@ -125,9 +127,9 @@ function AppelAPI(long, lat, ville) {
         }
 
         // Icone dynamique 
-         if(heureActuelle >= 6 && heureActuelle < 21) {
+         if(heureActuelle >= 6 && heureActuelle < 21) { // entre 6h et 21h jour
              imgIcone.src = `ressources/jour/${resultatsAPI.current.weather[0].icon}.svg`
-         } else  {
+         } else  { // nuit
             imgIcone.src = `ressources/nuit/${resultatsAPI.current.weather[0].icon}.svg`
          }
 
